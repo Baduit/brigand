@@ -312,7 +312,20 @@ install(FILES ${CMAKE_BINARY_DIR}/libbrigand.pc
     DESTINATION lib/pkgconfig
 )
 
-include(SetupDoxygen)
-include(SetupStandardese)
 
-add_subdirectory(examples)
+option(EXAMPLE "EXAMPLE" OFF)
+option(SETUP_DOXYGEN "SETUP_DOXYGEN" OFF)
+option(SETUP_STANDARDESE "SETUP_STANDARDESE" OFF)
+
+
+if (SETUP_DOXYGEN)
+    include(SetupDoxygen)
+endif()
+
+if (SETUP_DOXYGEN)
+    include(SetupStandardese)
+endif()
+
+if (EXAMPLE)
+    add_subdirectory(examples)
+endif()
