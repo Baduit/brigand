@@ -9,9 +9,14 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
 
 enable_testing()
 
+option(TESTS "TESTS" ON)
+option(EXAMPLE "EXAMPLE" OFF)
+option(SETUP_DOXYGEN "SETUP_DOXYGEN" OFF)
+option(SETUP_STANDARDESE "SETUP_STANDARDESE" OFF)
+
 if((CMAKE_CXX_COMPILER_ID MATCHES "Clang") OR CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -pedantic -Wold-style-cast")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -Wextra -pedantic -Wold-style-cast")
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
@@ -228,76 +233,82 @@ set(BRIGAND_HEADERS ${BRIGAND_GROUP}
     ${SEQUENCES_GROUP}
     ${TYPES_GROUP})
 
-set(test_files
-    ${PROJECT_SOURCE_DIR}/test/always.cpp
-    ${PROJECT_SOURCE_DIR}/test/apply.cpp
-    ${PROJECT_SOURCE_DIR}/test/args.cpp
-    ${PROJECT_SOURCE_DIR}/test/bind.cpp
-    ${PROJECT_SOURCE_DIR}/test/bitwise_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/comparison_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/count_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/config_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/eval_if_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/erase_c_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/find.cpp
-    ${PROJECT_SOURCE_DIR}/test/flatten.cpp
-    ${PROJECT_SOURCE_DIR}/test/fold.cpp
-    ${PROJECT_SOURCE_DIR}/test/for_each.cpp
-    ${PROJECT_SOURCE_DIR}/test/identity.cpp
-    ${PROJECT_SOURCE_DIR}/test/if_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/index_of.cpp
-    ${PROJECT_SOURCE_DIR}/test/include_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/inherit.cpp
-    ${PROJECT_SOURCE_DIR}/test/inherit_linearly.cpp
-    ${PROJECT_SOURCE_DIR}/test/integer.cpp
-    ${PROJECT_SOURCE_DIR}/test/integral_list_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/integral_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/is_set_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/keys_as_sequence.cpp
-    ${PROJECT_SOURCE_DIR}/test/list_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/logical_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/main.cpp
-    ${PROJECT_SOURCE_DIR}/test/make_sequence_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/map_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/merge_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/pair_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/partition_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/predicate_reduction_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/range_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/real.cpp
-    ${PROJECT_SOURCE_DIR}/test/remove_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/repeat_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/replace.cpp
-    ${PROJECT_SOURCE_DIR}/test/reverse_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/select.cpp
-    ${PROJECT_SOURCE_DIR}/test/set_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/sizeof.cpp
-    ${PROJECT_SOURCE_DIR}/test/sort_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/split.cpp
-    ${PROJECT_SOURCE_DIR}/test/split_at.cpp
-    ${PROJECT_SOURCE_DIR}/test/transform.cpp
-    ${PROJECT_SOURCE_DIR}/test/tuple_test.cpp
-    ${PROJECT_SOURCE_DIR}/test/values_as_sequence.cpp
-)
-
-if(Boost_FOUND)
+if (TESTS)
     set(test_files
-        ${test_files}
-        test/variant_test.cpp
-        test/fusion_test.cpp)
+        ${PROJECT_SOURCE_DIR}/test/always.cpp
+        ${PROJECT_SOURCE_DIR}/test/apply.cpp
+        ${PROJECT_SOURCE_DIR}/test/args.cpp
+        ${PROJECT_SOURCE_DIR}/test/bind.cpp
+        ${PROJECT_SOURCE_DIR}/test/bitwise_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/comparison_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/count_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/config_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/eval_if_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/erase_c_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/find.cpp
+        ${PROJECT_SOURCE_DIR}/test/flatten.cpp
+        ${PROJECT_SOURCE_DIR}/test/fold.cpp
+        ${PROJECT_SOURCE_DIR}/test/for_each.cpp
+        ${PROJECT_SOURCE_DIR}/test/identity.cpp
+        ${PROJECT_SOURCE_DIR}/test/if_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/index_of.cpp
+        ${PROJECT_SOURCE_DIR}/test/include_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/inherit.cpp
+        ${PROJECT_SOURCE_DIR}/test/inherit_linearly.cpp
+        ${PROJECT_SOURCE_DIR}/test/integer.cpp
+        ${PROJECT_SOURCE_DIR}/test/integral_list_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/integral_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/is_set_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/keys_as_sequence.cpp
+        ${PROJECT_SOURCE_DIR}/test/list_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/logical_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/main.cpp
+        ${PROJECT_SOURCE_DIR}/test/make_sequence_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/map_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/merge_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/pair_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/partition_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/predicate_reduction_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/range_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/real.cpp
+        ${PROJECT_SOURCE_DIR}/test/remove_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/repeat_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/replace.cpp
+        ${PROJECT_SOURCE_DIR}/test/reverse_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/select.cpp
+        ${PROJECT_SOURCE_DIR}/test/set_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/sizeof.cpp
+        ${PROJECT_SOURCE_DIR}/test/sort_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/split.cpp
+        ${PROJECT_SOURCE_DIR}/test/split_at.cpp
+        ${PROJECT_SOURCE_DIR}/test/transform.cpp
+        ${PROJECT_SOURCE_DIR}/test/tuple_test.cpp
+        ${PROJECT_SOURCE_DIR}/test/values_as_sequence.cpp
+    )
+
+    if(Boost_FOUND)
+        set(test_files
+            ${test_files}
+            test/variant_test.cpp
+            test/fusion_test.cpp)
+    endif()
+
+    source_group(tests FILES ${test_files})
+
+    add_executable(brigand_test ${test_files})
 endif()
-
-source_group(tests FILES ${test_files})
-
-add_executable(brigand_test ${test_files})
 
 IF(${CMAKE_MAJOR_VERSION} GREATER 2)
     add_library(brigand INTERFACE)
     add_custom_target(brigand_headers SOURCES ${BRIGAND_HEADERS})
-    target_link_libraries(brigand_test brigand)
+    if (TESTS)
+        target_link_libraries(brigand_test brigand)
+    endif()
 ENDIF()
 
-add_test(NAME brigand_test COMMAND brigand_test)
+if (TESTS)
+    add_test(NAME brigand_test COMMAND brigand_test)
+endif()
 
 configure_file(libbrigand.pc.in
     libbrigand.pc
@@ -311,11 +322,6 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/brigand
 install(FILES ${CMAKE_BINARY_DIR}/libbrigand.pc
     DESTINATION lib/pkgconfig
 )
-
-
-option(EXAMPLE "EXAMPLE" OFF)
-option(SETUP_DOXYGEN "SETUP_DOXYGEN" OFF)
-option(SETUP_STANDARDESE "SETUP_STANDARDESE" OFF)
 
 
 if (SETUP_DOXYGEN)
